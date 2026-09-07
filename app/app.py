@@ -5,4 +5,4 @@ app = FastAPI()
 @app.get("/")
 
 def root():
-    return {"message: mediqApp  Backend Funcionando"}
+    return {"message": "mediqApp  Backend Funcionando"}
