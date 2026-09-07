@@ -1,3 +1,4 @@
-print("hello world")
+from fastapi import fastAPI
 
-print("hola world soy lucho:)")
+app = FastAPI()
+
