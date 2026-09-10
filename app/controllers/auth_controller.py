@@ -71,5 +71,40 @@ def registro_controller(datos: Registro):
     finally:
         db.close()
 
+
 def login_controller(datos: Credenciales):
-    return {"message": "Login recibido"}
+
+    db = SessionLocal()
+
+    try:
+        usuario = (
+            db.query(Usuario)
+            .filter(Usuario.usuario == datos.usuario)
+            .first()
+        )
+
+        if not usuario:
+            raise HTTPException(
+                status_code=401,
+                detail="Usuario o contraseña incorrectos"
+            )
+
+        password_correcta = verificar_password(
+            datos.password,
+            usuario.password_hash
+        )
+
+        if not password_correcta:
+            raise HTTPException(
+                status_code=401,
+                detail="Usuario o contraseña incorrectos"
+            )
+
+        return {
+            "message": "Login exitoso",
+            "id": usuario.id,
+            "usuario": usuario.usuario
+        }
+
+    finally:
+        db.close()
